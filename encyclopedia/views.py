@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import markdown2
+from django.http import HttpResponseRedirect
 
 from . import util
 
@@ -28,3 +29,31 @@ def entry(request, name):
             "main": mainContent
         })
 
+# Search Feature
+def search(request):
+    if request.method == "POST":
+        q = request.POST['q']
+
+        listEntries = util.list_entries()
+        page = ""
+
+        # If the query typed is equal to one element of 'listEntries', update 'page' variable to the value of 'q'
+        for listEntry in listEntries:
+            if q.lower() == listEntry.lower():
+                page = q
+        # Redirect directly to the Entry Page
+        if page != "":
+            return HttpResponseRedirect("/wiki/" + page)
+    
+
+        results = []
+
+        # Generate list of results according to the query typed
+        for listEntry in listEntries:
+            if q.lower() in listEntry.lower():
+                results.append(listEntry) # Add new item to 'results' list
+            
+        return render(request, "encyclopedia/searchResults.html", {
+            "search": q,
+            "results": results
+        })
