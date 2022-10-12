@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import markdown2
 from django.http import HttpResponseRedirect
+import random
 
 from . import util
 
@@ -117,3 +118,18 @@ def edit(request, name):
             "title": name,
             "main": entry
         })
+
+# Random Page
+def randomPage(request):
+    # Get list of entries and number of last Index of the List
+    listEntries = util.list_entries()
+    lastIndex = len(listEntries) - 1
+
+    # Get a random number between 0 until 'lastIndex'
+    randomNumber = random.randint(0, lastIndex)
+
+    # Get the entry page with index of 'randomNumber'
+    entry = listEntries[randomNumber]
+
+    # Return random page
+    return HttpResponseRedirect("/wiki/" + entry)
