@@ -57,3 +57,38 @@ def search(request):
             "search": q,
             "results": results
         })
+
+# Create New Page
+def create(request):
+    # For POST request:
+    if request.method == "POST":
+        # Get 'title' and 'main' from the create page
+        form = request.POST
+        title = form['title']
+        main = form['main']
+
+        # Get list of entries
+        listEntries = util.list_entries()
+
+        # Validate when users does not type the 'title' or 'main'
+        if title == "" or main == "":
+            error = "Please fill out the title and main fields."
+            return render(request, "encyclopedia/error.html", {
+            "error": error
+        })
+
+        # Check that the new 'title', is NOT the same as one of the items inside of the List of Entries.
+        for listEntry in listEntries:
+            if title.lower() == listEntry.lower():
+                error = "This page already exists. Please change the title!"
+                return render(request, "encyclopedia/error.html", {
+                    "error": error
+                })
+            else:
+                # If the new entry only exists once on the list, then create a new .md file, and redirect the user to /wiki/title.
+                util.save_entry(title, main)
+                return HttpResponseRedirect("/wiki/" + title)
+
+    # For GET request:
+    elif request.method == "GET":
+        return render(request, "encyclopedia/create.html")
