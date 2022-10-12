@@ -1,0 +1,33 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>Edit Page</h1>
+
+    <div style="margin: 1.5em 5em 0em 2.5em;">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="title" class="form-label">Title: </label>
+                <input type="text" class="form-control" id="title" name="title" value="{{title}}"><!--required-->
+            </div>
+            <div class="mb-3">
+                <label for="main" class="form-label">Main Content:</label>
+                <textarea class="form-control" id="main" rows="10" name="main">{{ main }}</textarea>
+            </div>
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="fas fa-exclamation-triangle fa-lg" style="margin-right: 17px"></i>
+                <div>
+                    If you change the title, a new file will be saved on the content with the updates. However, <strong>the old version with the old title will remain on the list of Entry Pages.</strong>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <input type="submit" class="btn btn-primary mb-3" value="SAVE">
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

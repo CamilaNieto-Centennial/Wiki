@@ -92,3 +92,28 @@ def create(request):
     # For GET request:
     elif request.method == "GET":
         return render(request, "encyclopedia/create.html")
+
+# Edit Page
+def edit(request, name):
+    # For POST request:
+    if request.method == "POST":
+        # Get 'title' and 'main' from the create page
+        form = request.POST
+        title = form['title']
+        main = form['main']
+
+        # Save new changes
+        util.save_entry(title, main)
+
+        # Redirect to that Entry Page
+        return HttpResponseRedirect("/wiki/" + title)
+
+    # For GET request:
+    elif request.method == "GET":
+        # Get the title and content of .md file to show them on edit.html
+        entry = util.get_entry(name) # Access the .md file
+
+        return render(request, "encyclopedia/edit.html", {
+            "title": name,
+            "main": entry
+        })
