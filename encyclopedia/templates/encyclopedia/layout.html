@@ -11,11 +11,23 @@
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'encyclopedia/styles.css' %}" rel="stylesheet">
+        <style>
+            .wikiImage {
+                display: block; 
+                width: 150px; 
+                margin: 1em auto 1em auto;
+            }
+            .row {
+                margin-right: 0px; 
+                margin-left: 0px;
+            }
+        </style>
     </head>
     <body>
-        <div class="row" style="margin-right: 0px; margin-left: 0px;">
+        <div class="row">
             <div class="sidebar col-lg-2 col-md-3">
-                <h2>Wiki</h2>
+                <h2 style="text-align: center;"><strong>Wiki</strong></h2>
+                <img alt="Wiki" src="https://i.postimg.cc/B6ZdRGJY/wiki.png" class="wikiImage">
                 <form action="{% url 'search' %}" method="post">
                     {% csrf_token %}
                     <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
