@@ -85,7 +85,8 @@ def create(request):
                 return render(request, "encyclopedia/error.html", {
                     "error": error
                 })
-            else:
+        for listEntry in listEntries:
+            if title.lower() != listEntry.lower():
                 # If the new entry only exists once on the list, then create a new .md file, and redirect the user to /wiki/title.
                 util.save_entry(title, main)
                 return HttpResponseRedirect("/wiki/" + title)
